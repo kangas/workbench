@@ -10,6 +10,7 @@ gnome_apt_to_install:
   #
   # Customizations for gnome
   #
+  - dconf-editor
   - gnome-tweaks
   - ubuntu-wallpapers-artful
   - ubuntu-wallpapers-bionic

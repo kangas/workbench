@@ -6,3 +6,8 @@
     update_cache: no
   become: yes
 
+# This background image is in ubuntu-wallpapers-artful
+- name: Set desktop background
+  dconf:
+    key: /org/gnome/desktop/background/picture-uri
+    value: file:///usr/share/backgrounds/Grand_Canyon_North_Rim_by_Rihards_Vilks.jpg
