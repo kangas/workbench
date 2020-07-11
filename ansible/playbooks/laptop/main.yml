@@ -9,8 +9,24 @@
   
   roles:
     - role: base
+    - role: gnome-desktop
     - role: sublime-text
     # - role: dropbox
     # - role: 1password-wine
     # - role: vpn-pulse-secure
 
+  # tasks:
+  #   - name: Install Snaps: Okular, Slack, Spotify
+  #     snap:
+  #       name:
+  #         - okular
+  #         - slack
+  #         - spotify
+
+# Some other useful Snaps, but not always necessary for me!
+#
+# atom                  - FOSS text editor
+# inkscape              - FOSS vector graphic drawing
+# krita                 - FOSS raster graphics editor, built with Qt
+# pycharm-professional
+#

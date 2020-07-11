@@ -1,8 +1,17 @@
 ---
 - import_tasks: apt-tools.yml
+
 - debug:
     var: ansible_env.HOME
+
 - name: gitconfig
   template:
     src: templates/gitconfig
     dest: "{{ ansible_env.HOME }}/.gitconfig"
+
+- name: Clone dotfiles repo
+  git:
+    repo: 'https://github.com/kangas/.dotfiles.git'
+    dest: "{{ ansible_env.HOME }}/.dotfiles"
+    update: no
+

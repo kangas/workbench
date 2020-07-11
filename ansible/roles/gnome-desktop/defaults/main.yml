@@ -1,0 +1,23 @@
+---
+
+gnome_apt_to_install:
+  #
+  # Ubuntu comes with a customized GNOME desktop. I prefer the original.
+  # Install these then reboot to revert to "vanilla" GNOME.
+  #
+  - gdm3
+  - gnome-session
+  #
+  # Customizations for gnome
+  #
+  - gnome-tweaks
+  - ubuntu-wallpapers-artful
+  - ubuntu-wallpapers-bionic
+  #
+  # Flameshot is a screenshot tool. https://github.com/lupoDharkael/flameshot
+  #
+  - flameshot
+  #
+  # Solaar is a Linux manager for Logitech devices
+  #
+  - solaar
