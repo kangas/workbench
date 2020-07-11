@@ -22,14 +22,15 @@ cd workbench
 
 pip3 install --user -r requirements.txt
 
-# --user is the default on Debian python3-pip!
-# which means we need this...
+# --user is the default on Debian python3-pip! which means we need...
 
 export PATH=~/.local/bin:$PATH
 
 cd ansible
 
-ansible-playbook ./playbooks/laptop/main.yml
+ansible-playbook -K ./playbooks/laptop/main.yml
+
+# -K is --ask-become-pass
 ```
 
 

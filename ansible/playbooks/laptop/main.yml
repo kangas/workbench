@@ -9,8 +9,8 @@
   
   roles:
     - role: base
+    - role: sublime-text
     # - role: dropbox
     # - role: 1password-wine
     # - role: vpn-pulse-secure
-    # - role: sublime-text
 
