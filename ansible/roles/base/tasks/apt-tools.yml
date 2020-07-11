@@ -1,10 +1,11 @@
 ---
+- debug:
+    msg: "apt install {{ apt_tools_to_install }}"
+
 - name: Install apt tools
   apt:
-    name: "{{ item.name }}"
+    name: "{{ apt_tools_to_install }}"
     state: present
     update_cache: yes
     cache_valid_time: 600
-  when: item.include|default('True')|bool
-  with_items: "{{ apt_tools_to_install }}"
 

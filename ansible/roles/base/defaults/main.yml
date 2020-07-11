@@ -1,20 +1,21 @@
 ---
 apt_tools_to_install:
-  - name: python3-dev
-  - name: tig
+  - build-essential
+  - python3-dev
+  - tig
 
   # # getting fresher version of awscli requires pip3 :(
-  # - name: awscli
-  # - name: python-boto3
-  # - name: htop
-  # - name: iotop
-  # - name: mediainfo
-  # - name: molly-guard
-  # - name: nmap
-  # - name: traceroute
-  # - name: libmysqlclient-dev
-  # - name: postgresql-client
-  # - name: libssl-dev
-  # - name: zip
-  # - name: unzip
-  # - name: vim
+  # - awscli
+  # - python-boto3
+  # - htop
+  # - iotop
+  # - mediainfo
+  # - molly-guard
+  # - nmap
+  # - traceroute
+  # - libmysqlclient-dev
+  # - postgresql-client
+  # - libssl-dev
+  # - zip
+  # - unzip
+  # - vim
