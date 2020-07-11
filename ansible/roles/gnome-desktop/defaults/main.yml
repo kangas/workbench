@@ -2,6 +2,10 @@
 
 gnome_apt_to_install:
   #
+  # Required by Ansible "dconf" module
+  #
+  - python3-psutil
+  #
   # Ubuntu comes with a customized GNOME desktop. I prefer the original.
   # Install these then reboot to revert to "vanilla" GNOME.
   #
