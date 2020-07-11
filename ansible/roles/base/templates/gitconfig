@@ -1,0 +1,22 @@
+[user]
+	name = {{ git.user_name }}
+	email = {{ git.user_email }}
+[alias]
+	st = status
+	co = checkout
+	br = branch
+	ci = commit
+	la = log --graph --oneline
+[push]
+	default = simple
+	followTags = true
+[merge]
+	ff = only
+[tig]
+	main-view-id = yes
+	main-view-date = relative-compact
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

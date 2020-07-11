@@ -1,7 +1,6 @@
 ---
 
 - hosts: laptop
-  become: true
 
   vars_files:
     - "../../group_vars/laptop"

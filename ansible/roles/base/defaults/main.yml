@@ -11,14 +11,7 @@ apt_tools_to_install:
   - vim
   - zip
 
-  # # getting fresher version of awscli requires pip3 :(
-  # - awscli
-  # - python-boto3
-  # - htop
-  # - mediainfo
-  # - molly-guard
-  # - nmap
-  # - traceroute
-  # - libmysqlclient-dev
-  # - postgresql-client
-  # - libssl-dev
+git:
+  user_name: Your Name
+  user_email: you@email.com
+

@@ -20,7 +20,12 @@ git clone https://github.com/kangas/workbench.git
 
 cd workbench
 
-pip3 install -r requirements.txt
+pip3 install --user -r requirements.txt
+
+# --user is the default on Debian python3-pip!
+# which means we need this...
+
+export PATH=~/.local/bin:$PATH
 
 cd ansible
 
