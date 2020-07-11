@@ -1,0 +1,10 @@
+---
+- name: Install apt tools
+  apt:
+    name: "{{ item.name }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 600
+  when: item.include|default('True')|bool
+  with_items: "{{ apt_tools_to_install }}"
+

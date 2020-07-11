@@ -1,0 +1,17 @@
+---
+
+- hosts: laptop
+  become: true
+
+  vars_files:
+    - "../../group_vars/laptop"
+
+  # environment:
+  
+  roles:
+    - role: base
+    # - role: dropbox
+    # - role: 1password-wine
+    # - role: vpn-pulse-secure
+    # - role: sublime-text
+
