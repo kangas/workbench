@@ -9,6 +9,25 @@ This is a highly opinionated project. This is my laptop setup. Take it or leave 
 Best regards,  
 Matt
 
+## Usage
+
+Install [Ubuntu desktop](https://ubuntu.com/tutorials/install-ubuntu-desktop) 20.20 LTS. Then,
+
+```
+sudo apt install git python3-venv python3-pip
+
+git clone https://github.com/kangas/workbench.git
+
+cd workbench
+
+pip3 install -r requirements.txt
+
+cd ansible
+
+ansible-playbook ./playbooks/laptop/main.yml
+```
+
+
 ## License
 
    Copyright 2020 Matt Kangas
