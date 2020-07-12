@@ -7,6 +7,9 @@ gnome_preferences:
   # Set CapsLock to Ctrl, PrtSc to Compose
   - key: /org/gnome/desktop/input-sources/xkb-options
     value: "['caps:ctrl_modifier', 'compose:prsc']"
+  # Fonts
+  - key: /org/gnome/desktop/interface/monospace-font-name
+    value: "'Liberation Mono 11'"
   # Font Smoothing
   - key: "/org/gnome/settings-daemon/plugins/xsettings/antialiasing"
     value: "'rgba'"
@@ -15,3 +18,7 @@ gnome_preferences:
     value: "true"
   - key: /org/gnome/settings-daemon/plugins/color/night-light-temperature
     value: uint32 4700
+
+gnome_extensions:
+  - id: 615
+    name: 'appindicatorsupport@rgcjonas.gmail.com'

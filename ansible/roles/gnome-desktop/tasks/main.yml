@@ -30,3 +30,46 @@
 # ProxySwitcher@flannaghan.com/
 # sound-output-device-chooser@kgshank.net/
 #
+
+- name: Get Gnome Shell version
+  shell: gnome-shell --version | sed 's/[^0-9.]*\([0-9.]*\).*/\1/'
+  register: r_gnome_extension_get_shell_version
+  changed_when: no
+  check_mode: no
+
+- set_fact:
+    gnome_shell_version: "{{ r_gnome_extension_get_shell_version.stdout }}"
+
+- name: Load Gnome extension information
+  include_tasks: get_extension_info.yml
+  with_items: "{{ gnome_extensions }}"
+
+- name: Use gnome_extensions_full
+  set_fact:
+    gnome_extensions: "{{ gnome_extensions_full }}"
+
+- name: Download GNOME Shell extensions
+  get_url:
+    url: "{{ item.url }}"
+    dest: "/tmp/{{ item.name }}.zip"
+  with_items: "{{ gnome_extensions|default([]) }}"
+  tags:
+    - extensions
+
+- name: Create GNOME extension directories
+  file:
+    path: "{{ ansible_env.HOME }}/.local/share/gnome-shell/extensions/{{ item.name }}"
+    state: directory
+  with_items: "{{ gnome_extensions|default([]) }}"
+  tags:
+    - extensions
+
+- name: Unzip GNOME extensions
+  unarchive:
+    src: "/tmp/{{ item.name }}.zip"
+    dest: "{{ ansible_env.HOME }}/.local/share/gnome-shell/extensions/{{ item.name }}"
+    creates: "{{ ansible_env.HOME }}/.local/share/gnome-shell/extensions/{{ item.name }}/metadata.json"
+    remote_src: yes
+  with_items: "{{ gnome_extensions|default([])}}"
+  tags:
+    - extensions
