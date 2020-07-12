@@ -26,3 +26,4 @@ gnome_apt_to_install:
   # Solaar is a Linux manager for Logitech devices
   #
   - solaar
+

@@ -1,0 +1,17 @@
+---
+
+gnome_preferences:
+  # Desktop background. Image is in ubuntu-wallpapers-artful
+  - key: /org/gnome/desktop/background/picture-uri
+    value: "'file:///usr/share/backgrounds/Grand_Canyon_North_Rim_by_Rihards_Vilks.jpg'"
+  # Set CapsLock to Ctrl, PrtSc to Compose
+  - key: /org/gnome/desktop/input-sources/xkb-options
+    value: "['caps:ctrl_modifier', 'compose:prsc']"
+  # Font Smoothing
+  - key: "/org/gnome/settings-daemon/plugins/xsettings/antialiasing"
+    value: "'rgba'"
+  # Night light
+  - key: /org/gnome/settings-daemon/plugins/color/night-light-enabled
+    value: "true"
+  - key: /org/gnome/settings-daemon/plugins/color/night-light-temperature
+    value: uint32 4700

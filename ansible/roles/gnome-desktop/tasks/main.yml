@@ -6,8 +6,27 @@
     update_cache: no
   become: yes
 
-# This background image is in ubuntu-wallpapers-artful
-- name: Set desktop background
+- name: Check Key Existence
   dconf:
-    key: /org/gnome/desktop/background/picture-uri
-    value: "'file:///usr/share/backgrounds/Grand_Canyon_North_Rim_by_Rihards_Vilks.jpg'"
+    key: "{{ item.key}}"
+    state: read
+  with_items: "{{ gnome_preferences }}"
+
+- name: Preferences
+  dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value | string }}"
+    state: present
+  with_items: "{{ gnome_preferences }}"
+
+
+#
+# TODO: Install GNOME shell extensions
+#
+# appindicatorsupport@rgcjonas.gmail.com/
+# freon@UshakovVasilii_Github.yahoo.com/
+# impatience@gfxmonk.net/
+# pixel-saver@deadalnix.me/
+# ProxySwitcher@flannaghan.com/
+# sound-output-device-chooser@kgshank.net/
+#

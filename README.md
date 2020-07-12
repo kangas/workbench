@@ -28,7 +28,7 @@ export PATH=~/.local/bin:$PATH
 
 cd ansible
 
-ansible-playbook -K ./playbooks/laptop/main.yml
+ansible-playbook -K matt_laptop.yml
 
 # -K is --ask-become-pass
 ```

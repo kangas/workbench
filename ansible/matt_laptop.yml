@@ -2,9 +2,6 @@
 
 - hosts: laptop
 
-  vars_files:
-    - "../../group_vars/laptop"
-
   # environment:
   
   roles:
