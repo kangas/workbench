@@ -1,0 +1,4 @@
+{
+	"black_command": "/home/kangas/.pyenv/versions/mpd_3.6/bin/black",
+	"black_on_save": true
+}

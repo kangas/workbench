@@ -19,3 +19,25 @@
     update_cache: yes
     cache_valid_time: 600
   become: yes
+
+- name: Create Sublime config dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ ansible_env.HOME }}/.config/sublime-text-3/Installed Packages"
+    - "{{ ansible_env.HOME }}/.config/sublime-text-3/Packages/User"
+
+- name: Install packages
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.config/sublime-text-3/Installed Packages"
+  with_fileglob:
+    - files/packages/*
+
+- name: Install configs
+  template:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.config/sublime-text-3/User"
+  with_fileglob:
+    - templates/User/*

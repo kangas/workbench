@@ -1,0 +1,21 @@
+// SublimeLinter Settings - User
+{
+    // Provide extra paths to be searched when locating system executables.
+    "paths": {
+        "linux": [
+        	"/home/kangas/.pyenv/versions/3.6.4/bin"
+        ],
+        "osx": [],
+        "windows": []
+    },
+    "linters": {
+    	"flake8": {
+    		"python": null,
+    		"disable": false,
+    		"args": [
+    			"--max-line-length", "119",
+                "--ignore", "E128,E262,E402,E731,E722,W503"
+    		]
+    	}
+    }
+}
