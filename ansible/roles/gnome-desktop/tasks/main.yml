@@ -30,6 +30,8 @@
 # ProxySwitcher@flannaghan.com/
 # sound-output-device-chooser@kgshank.net/
 #
+# Food for thought: https://github.com/PeterMosmans/ansible-role-customize-gnome
+#
 
 - name: Get Gnome Shell version
   shell: gnome-shell --version | sed 's/[^0-9.]*\([0-9.]*\).*/\1/'

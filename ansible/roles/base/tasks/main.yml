@@ -15,3 +15,7 @@
     dest: "{{ ansible_env.HOME }}/.dotfiles"
     update: no
 
+- name: bashrc
+  template:
+    src: templates/bashrc
+    dest: "{{ ansible_env.HOME }}/.bashrc"
