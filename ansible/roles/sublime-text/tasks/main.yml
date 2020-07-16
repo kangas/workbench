@@ -41,3 +41,17 @@
     dest: "{{ ansible_env.HOME }}/.config/sublime-text-3/User"
   with_fileglob:
     - templates/User/*
+
+- name: Install configs
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.config/sublime-text-3/Packages/User"
+  with_fileglob:
+    - templates/User/*
+
+- name: Install User prefs
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.config/sublime-text-3/User"
+  with_fileglob:
+    - templates/User/Preferences.sublime-settings
