@@ -52,6 +52,7 @@
   apt:
     name: virtualbox-ext-pack
     state: present
+  become: yes
 
 # Extension pack should now be located in
 # /usr/share/virtualbox-ext-pack
