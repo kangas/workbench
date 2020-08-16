@@ -48,7 +48,14 @@
     - vboxnetflt
     - vboxnetadp
 
-- name: Install extpack. Requires accepting the license
+- name: Accept Oracle license
+  debconf:
+    name: "virtualbox-ext-pack"
+    question: "virtualbox-ext-pack/license"
+    value: "true"
+    vtype: "select"
+
+- name: Install extpack. Must accept Oracle license first.
   apt:
     name: virtualbox-ext-pack
     state: present
