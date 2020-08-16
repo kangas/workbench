@@ -9,7 +9,6 @@
     - role: gnome-desktop
     - role: sublime-text
     # - role: dropbox
-    # - role: 1password-wine
     # - role: vpn-pulse-secure
 
   # tasks:
