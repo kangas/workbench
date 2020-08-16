@@ -1,10 +1,18 @@
 ---
+#
+# Install Virtualbox on Ubuntu
+# https://www.virtualbox.org/
+#
+# Tested with 5.2 on Ubuntu 18.04 and 6.1 on Ubuntu 20.04
+#
+# We use the package virtualbox-dkms to ensure that drivers are signed by a Machine Owner Key,
+# so drivers will load on a system with UEFI Secure Boot.
+#
+# We install the Oracle Extension Pack without prompting to accept the Oracle license.
+#
+
 - assert:
     that: "ansible_os_family == 'Debian'"
-
-- name: ansible_distribution_release
-  debug:
-    var: ansible_distribution_release
 
 # ansible_distribution_release is used in our virtualbox.list template
 
@@ -22,7 +30,7 @@
   become: yes
 
 #
-# When virtualbox-dkms is installed the first time, you will be prompted
+# When virtualbox-dkms is installed the first time, you are prompted
 # to enter a password, reboot, then enter this password to import a
 # Machine Owner Key (MOK)
 #
@@ -64,9 +72,6 @@
 
 # Extension pack should now be located in
 # /usr/share/virtualbox-ext-pack
-#
-# e.g.
-# /usr/share/virtualbox-ext-pack/Oracle_VM_VirtualBox_Extension_Pack-5.2.42.vbox-extpack
 #
 # Check if installed:
 # vboxmanage list -l extpacks
