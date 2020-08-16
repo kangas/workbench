@@ -8,6 +8,9 @@
     - role: base
     - role: gnome-desktop
     - role: sublime-text
+    - role: virtualbox
+      tags:
+        - vbox
     # - role: dropbox
     # - role: vpn-pulse-secure
 

@@ -1,0 +1,28 @@
+---
+- assert:
+    that: "ansible_os_family == 'Debian'"
+
+- name: ansible_distribution_release
+  debug:
+    var: ansible_distribution_release
+
+- name: Add apt sources.list
+  template:
+    src: templates/apt/virtualbox.list
+    dest: "/etc/apt/sources.list.d/virtualbox.list"
+  become: yes
+
+- name: Add Virtualbox Apt signing key
+  apt_key:
+    data: "{{ lookup('file', 'oracle_vbox_2016.asc') }}"
+    id: B9F8D658297AF3EFC18D5CDFA2F683C52980AECF
+    state: present
+  become: yes
+
+- name: Install Virtualbox
+  apt:
+    name: virtualbox-5.2
+    state: present
+    update_cache: yes
+    cache_valid_time: 600
+  become: yes

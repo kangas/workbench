@@ -1,5 +1,8 @@
 ---
-- name: gitconfig
+- assert:
+    that: "ansible_os_family == 'Debian'"
+
+- name: Add apt sources.list
   template:
     src: templates/apt/sublime-text.list
     dest: "/etc/apt/sources.list.d/sublime-text.list"
