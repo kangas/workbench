@@ -6,6 +6,8 @@
   debug:
     var: ansible_distribution_release
 
+# ansible_distribution_release is used in the next template
+
 - name: Add apt sources.list
   template:
     src: templates/apt/virtualbox.list
@@ -19,10 +21,29 @@
     state: present
   become: yes
 
-- name: Install Virtualbox
+#
+# When virtualbox-dkms is installed the first time, you will be prompted
+# to enter a password, reboot, then enter this password to import a
+# Machine Owner Key (MOK)
+#
+# To rerun this in the future, if ever needed,
+# sudo dpkg-reconfigure virtualbox-dkms
+#
+
+- name: Install Virtualbox with drivers managed by dkms
   apt:
-    name: virtualbox-6.1
+    name: virtualbox-dkms
     state: present
     update_cache: yes
     cache_valid_time: 600
   become: yes
+
+- name: Confirm virtualbox drivers are loaded
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  become: yes
+  loop:
+    - vboxdrv
+    - vboxnetflt
+    - vboxnetadp
