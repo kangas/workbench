@@ -6,7 +6,7 @@
   debug:
     var: ansible_distribution_release
 
-# ansible_distribution_release is used in the next template
+# ansible_distribution_release is used in our virtualbox.list template
 
 - name: Add apt sources.list
   template:
@@ -32,7 +32,7 @@
 
 - name: Install Virtualbox with drivers managed by dkms
   apt:
-    name: virtualbox-dkms
+    name: [virtualbox-dkms, virtualbox-ext-pack]
     state: present
     update_cache: yes
     cache_valid_time: 600
@@ -47,3 +47,46 @@
     - vboxdrv
     - vboxnetflt
     - vboxnetadp
+
+# Extension pack should now be located in
+# /usr/share/virtualbox-ext-pack
+#
+# e.g.
+# /usr/share/virtualbox-ext-pack/Oracle_VM_VirtualBox_Extension_Pack-5.2.42.vbox-extpack
+#
+# Check if installed:
+# vboxmanage list -l extpacks
+#
+# Install:
+# vboxmanage extpack install /usr/share/virtualbox-ext-pack/Oracle_VM_VirtualBox_Extension_Pack-5.2.42.vbox-extpack --accept-license=56be48f923303c8cababb0bb4c478284b688ed23f16d775d729b89a2e8e5f9eb
+#
+# If already installed, you'll see
+#
+# Progress state: NS_ERROR_FAILURE
+# VBoxManage: error: Failed to install "/usr/share/virtualbox-ext-pack/Oracle_VM_VirtualBox_Extension_Pack-5.2.42.vbox-extpack"
+# VBoxManage: error: Extension pack 'Oracle VM VirtualBox Extension Pack' is already installed. In case of a reinstallation, please uninstall it first
+
+- name: Check if vbox-ext-pack is installed
+  command:
+    cmd: vboxmanage list extpacks
+  register: list_extpacks_output
+
+#
+# Howto search for a string in a list:
+# https://www.tailored.cloud/devops/how-to-filter-and-map-lists-in-ansible/
+#
+- set_fact:
+    is_extpack_installed: "{{ list_extpacks_output.stdout_lines | select('search', 'Oracle VM VirtualBox Extension Pack') | list | length > 0 }}"
+
+- debug:
+    var: is_extpack_installed
+
+- name: Install VirtualBox_Extension_Pack
+  command:
+    argv:
+      - vboxmanage
+      - extpack
+      - install
+      - "{{ lookup('fileglob', '/usr/share/virtualbox-ext-pack/Oracle_VM_VirtualBox_Extension_Pack-*.vbox-extpack') }}"
+      - --accept-license=56be48f923303c8cababb0bb4c478284b688ed23f16d775d729b89a2e8e5f9eb
+  when: not is_extpack_installed
