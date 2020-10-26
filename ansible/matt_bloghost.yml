@@ -1,0 +1,8 @@
+---
+
+- hosts: bloghost
+
+  # environment:
+
+  roles:
+    - role: base
