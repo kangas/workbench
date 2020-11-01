@@ -12,6 +12,21 @@
     dest: '{{ ansible_env.HOME }}/src/gogh'
     update: no
 
+# On Ubuntu, ensure that a profile named "Default" is created first,
+# else Ubuntu 19.10+ will fail
+# https://github.com/Mayccoll/Gogh/issues/203
+
+- name: Look for existing profiles
+  command: dconf list /org/gnome/terminal/
+  register: dconf_list_terminal
+  when: ansible_distribution == "Ubuntu"
+
+- name: Confirm Default profile exists
+  assert:
+    that: dconf_list_terminal.stdout != ""
+    fail_msg: "Missing prerequisite: Please manually create a 'Default' profile in Terminal and retry."
+  when: ansible_distribution == "Ubuntu"
+
 - name: Install Gogh themes
   shell:
     cmd: './{{ item }}.sh'
