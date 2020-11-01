@@ -1,0 +1,14 @@
+---
+gogh_themes:
+  - elio
+  - gruvbox
+  - material
+  - molokai
+  - mono-amber
+  - solarized-dark-higher-contrast
+
+gogh_repo:
+  repo: https://github.com/Mayccoll/Gogh.git
+  version: c483e3e78499d1cf746ad81e71ded836b205275a
+  # This version is HEAD as of October 2020
+  # Please always pin this dependency, it executes bash scripts!

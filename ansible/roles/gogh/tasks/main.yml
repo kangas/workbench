@@ -1,0 +1,22 @@
+---
+- name: Create ~/src if it does not exist
+  file:
+    path: '{{ ansible_env.HOME }}/src'
+    state: directory
+    mode: '0755'
+
+- name: Clone Gogh repo
+  git:
+    repo: '{{ dotfiles.repo }}'
+    version: '{{ dotfiles.version }}'
+    dest: '{{ ansible_env.HOME }}/src/gogh'
+    update: no
+
+- name: Install Gogh themes
+  shell:
+    cmd: './{{ item }}.sh'
+    chdir: '{{ ansible_env.HOME }}/src/gogh/themes'
+    executable: /bin/bash
+  environment:
+    BASE_URL: 'never-allow-wget-pipe-to-bash'
+  loop: "{{ gogh_themes }}"

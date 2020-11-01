@@ -1,0 +1,7 @@
+---
+gogh_themes:
+ - zenburn
+
+gogh_repo:
+  repo: https://github.com/Mayccoll/Gogh.git
+  version: HEAD

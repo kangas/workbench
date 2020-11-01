@@ -11,6 +11,9 @@
     - role: virtualbox
       tags:
         - vbox
+    - role: gogh
+      tags:
+        - gogh
     # - role: dropbox
     # - role: vpn-pulse-secure
 
