@@ -7,8 +7,8 @@
 
 - name: Clone Gogh repo
   git:
-    repo: '{{ dotfiles.repo }}'
-    version: '{{ dotfiles.version }}'
+    repo: '{{ gogh_repo.repo }}'
+    version: '{{ gogh_repo.version }}'
     dest: '{{ ansible_env.HOME }}/src/gogh'
     update: no
 
