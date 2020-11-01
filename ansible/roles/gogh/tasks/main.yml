@@ -18,5 +18,6 @@
     chdir: '{{ ansible_env.HOME }}/src/gogh/themes'
     executable: /bin/bash
   environment:
+    TERMINAL: gnome-terminal
     BASE_URL: 'never-allow-wget-pipe-to-bash'
   loop: "{{ gogh_themes }}"
