@@ -16,3 +16,6 @@ git:
   user_name: Your Name
   user_email: you@email.com
 
+dotfiles:
+  repo: https://github.com/kangas/.dotfiles.git
+  version: HEAD
