@@ -1,5 +1,6 @@
 ---
 - import_tasks: apt-tools.yml
+- import_tasks: ssh.yml
 
 - debug:
     var: ansible_env.HOME

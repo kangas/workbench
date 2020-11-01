@@ -1,0 +1,31 @@
+Host *
+	ConnectTimeout 10
+
+Host *-stg *-stg-2 *-prd *-prd-2 *-dev
+	CanonicalDomains macmillan-platform.com
+	CanonicalizeHostname yes
+	User root
+
+Host hyrule
+	HostName 10.1.17.112
+	Port 22
+	User link
+	ForwardAgent yes
+
+Host hyrule3
+	HostName 10.1.17.113
+	Port 22
+	User link
+	ForwardAgent yes
+	CheckHostIP no
+	StrictHostKeyChecking no
+
+Host hyrule-vpn
+	HostName 127.0.0.1
+	Port 2222
+	User link
+	ForwardAgent yes
+
+Host git-codecommit.*.amazonaws.com
+  User APKAJFVVHGAESDDWQYYQ
+  IdentityFile ~/.ssh/id_rsa
