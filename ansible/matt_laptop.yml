@@ -3,19 +3,19 @@
 - hosts: laptop
 
   # environment:
-  
+
   roles:
     - role: base
+      tags: base
     - role: gnome-desktop
+    - role: gogh
+      tags: gogh
     - role: sublime-text
     - role: virtualbox
-      tags:
-        - vbox
-    - role: gogh
-      tags:
-        - gogh
+      tags: vbox
+    - role: vpn-pulse-secure
+      tags: pulse
     # - role: dropbox
-    # - role: vpn-pulse-secure
 
   # tasks:
   #   - name: Install Snaps: Okular, Slack, Spotify

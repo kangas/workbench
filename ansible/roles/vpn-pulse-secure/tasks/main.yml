@@ -1,3 +1,16 @@
 ---
-- debug:
-    msg: TODO vpn-pulse-secure not implemented
+
+# "package_facts" is convenient but slightly slow. Is there a better way to test for one package?
+
+- name: Gather the package facts
+  package_facts:
+    manager: auto
+
+- name: Check if :pulse" package is installed
+  assert:
+    that: "'pulse' in ansible_facts.packages"
+    fail_msg: "Pulse Secure VPN is not installed. \
+      Use https://www.pulsesecure.net/trynow/client-download/ to request a download link. \
+      Then install via 'dpkg -i <package name>. For more info see \
+      https://kb.pulsesecure.net/articles/Pulse_Secure_Article/KB40126/"
+  when: ansible_distribution == "Ubuntu"
