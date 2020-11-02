@@ -1,0 +1,5 @@
+---
+pulse_secure:
+  profile:
+    name: macmillan
+    url: https://vpn.macmillansecure.com
