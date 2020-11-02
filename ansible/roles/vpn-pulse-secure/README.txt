@@ -1,10 +1,9 @@
 Pulse Secure VPN - client setup
 
+Pulse Secure was formerly Junos Pulse from Juniper Networks.
 https://www.pulsesecure.net/
 
-Pulse Secure was formerly Junos Pulse from Juniper Networks.
-
-The Linux client works reasonably well but it is annoying to download. It is not available on any public URL. Instead, you must use the following web form to request a download link.
+The Linux client works well but it is annoying to download. It is not available on any public URL. Instead, you must use the following web form to request a download link.
 
 https://www.pulsesecure.net/trynow/client-download/
 
@@ -26,9 +25,24 @@ After a successful form submission, you should then receive an email with subjec
 - MD5
 
 Each download link is of the form:
-http://go.pulsesecure.net/tfEk3h04Sb0N900qNq000eR
+http://go.pulsesecure.net/WS0e7qNqN0P3Efk00h0b400
 
-Information about the Linux client can be found here:
+Download the "Ubuntu/Debian 64 Bit Installer" and install via "dpkg -i".
+
+Once the package is installed, you may find that it fails due to missing shared library dependencies.
+
+	$ /usr/local/pulse/pulseUi
+	/usr/local/pulse/pulseUi: error while loading shared libraries: libwebkitgtk-1.0.so.0: cannot open shared object file: No such file or directory
+
+See discussions here:
+
+- https://community.pulsesecure.net/t5/Pulse-Desktop-Clients/Does-pulseUi-work-in-ubuntu-19/td-p/40538
+- https://community.pulsesecure.net/t5/Pulse-Desktop-Clients/pulseUi-doesn-t-work-in-ubuntu-20-04/td-p/42721
+- https://askubuntu.com/questions/1135065/cant-run-pulse-secure-on-ubuntu-19-04-because-libwebkitgtk-1-0-so-0-is-missing
+
+
+
+More information about the Linux client can be found here:
 
 https://kb.pulsesecure.net/articles/Pulse_Secure_Article/KB40126/
 

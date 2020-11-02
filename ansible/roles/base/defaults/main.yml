@@ -1,6 +1,7 @@
 ---
 apt_tools_to_install:
   - build-essential
+  - curl
   - git
   - iotop
   - jq

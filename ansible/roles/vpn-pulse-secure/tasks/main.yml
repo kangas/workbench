@@ -1,5 +1,60 @@
 ---
 
+- name: Install libs needed by pulse
+  apt:
+    name:
+      - libenchant1c2a
+    state: present
+  become: yes
+  when: ansible_distribution == "Ubuntu"
+
+- name: Get old libraries needed for Ubuntu 20.04
+  apt:
+    deb: "{{ item }}"
+    state: present
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "20.04"
+    and ansible_architecture == "x86_64"
+  loop:
+    - http://archive.ubuntu.com/ubuntu/pool/main/i/icu/libicu60_60.2-3ubuntu3_amd64.deb
+    - http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libjavascriptcoregtk-1.0-0_2.4.11-3ubuntu3_amd64.deb
+    - http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkitgtk-1.0-0_2.4.11-3ubuntu3_amd64.deb
+
+# - name: Create directories for old shared libraries
+#   file:
+#     path: '{{ pulse_secure.install_path }}/{{ item }}'
+#     state: directory
+#     mode: '0755'
+#   become: yes
+#   loop:
+#     - debs
+#     - extra
+
+
+# - name: Get old libraries needed for Ubuntu 20.04
+#   get_url:
+#     url: "{{ item }}"
+#     mode: '0440'
+#     dest: '{{ pulse_secure.install_path }}/debs/'
+#   when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "20.04"
+#     and ansible_architecture == "x86_64"
+#   loop:
+#     - http://archive.ubuntu.com/ubuntu/pool/main/i/icu/libicu60_60.2-3ubuntu3_amd64.deb
+#     - http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libjavascriptcoregtk-1.0-0_2.4.11-3ubuntu3_amd64.deb
+#     - http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkitgtk-1.0-0_2.4.11-3ubuntu3_amd64.deb
+
+- name: Get old libraries needed for Ubuntu 20.04
+  get_url:
+    url: "{{ item }}"
+    mode: '0440'
+    dest: '{{ pulse_secure.install_path }}/debs/'
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "20.04"
+    and ansible_architecture == "x86_64"
+  loop:
+    - http://archive.ubuntu.com/ubuntu/pool/main/i/icu/libicu60_60.2-3ubuntu3_amd64.deb
+    - http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libjavascriptcoregtk-1.0-0_2.4.11-3ubuntu3_amd64.deb
+    - http://archive.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkitgtk-1.0-0_2.4.11-3ubuntu3_amd64.deb
+
+
 # "package_facts" is convenient but slightly slow. Is there a better way to test for one package?
 
 - name: Gather the package facts
@@ -14,3 +69,5 @@
       Then install via 'dpkg -i <package name>. For more info see \
       https://kb.pulsesecure.net/articles/Pulse_Secure_Article/KB40126/"
   when: ansible_distribution == "Ubuntu"
+
+  # when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "20.04"
