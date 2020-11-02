@@ -1,0 +1,6 @@
+---
+onepassword:
+  # https://app-updates.agilebits.com/product_history/CLI#v1080001
+  #  1.8.0  (build #1080001) – released 2020-10-22 
+  cli:
+    url: https://cache.agilebits.com/dist/1P/op/pkg/v1.8.0/op_linux_amd64_v1.8.0.zip

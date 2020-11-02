@@ -1,0 +1,39 @@
+---
+# Howto: https://support.1password.com/command-line-getting-started/
+
+- name: Create ~/bin if it does not exist
+  file:
+    path: '{{ ansible_env.HOME }}/bin'
+    state: directory
+    mode: '0755'
+
+# - name: Download CLI .zip
+#   get_url:
+#     url: '{{ onepassword.cli.url }}'
+#     dest: '{{ ansible_env.HOME }}/bin'
+#     mode: '0400'
+
+- name: Download and unzip
+  unarchive:
+    src: '{{ onepassword.cli.url }}'
+    dest: '{{ ansible_env.HOME }}/bin'
+    creates: '{{ ansible_env.HOME }}/bin/op'
+
+# To verify:
+#  gpg --receive-keys 3FEF9748469ADBE15DA7CA80AC2D62742012EA22
+#  gpg --verify op.sig op
+
+# - name: add gpg key
+#   command: gpg --receive-keys 3FEF9748469ADBE15DA7CA80AC2D62742012EA22
+
+- name: Add gpg key
+  apt_key:
+    keyserver: keys.gnupg.net
+    id: 3FEF9748469ADBE15DA7CA80AC2D62742012EA22
+  become: yes
+
+- name: Verify Download
+  command: gpg --verify op.sig op
+  args:
+    chdir: '{{ ansible_env.HOME }}/bin'
+  

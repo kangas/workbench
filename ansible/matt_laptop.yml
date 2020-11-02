@@ -15,6 +15,8 @@
       tags: vbox
     - role: vpn-pulse-secure
       tags: pulse
+    - role: 1password
+      tags: 1password
     # - role: dropbox
 
   # tasks:
