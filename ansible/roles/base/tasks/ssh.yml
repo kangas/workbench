@@ -3,3 +3,13 @@
   template:
     src: templates/ssh/config.j2
     dest: "{{ ansible_env.HOME }}/.ssh/config"
+
+- name: set id_rsa permissions
+  file:
+    path: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+    mode: '0600'
+
+- name: set id_rsa.pub permissions
+  file:
+    path: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+    mode: '0644'
