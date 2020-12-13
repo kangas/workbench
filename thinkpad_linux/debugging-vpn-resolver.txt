@@ -1,0 +1,239 @@
+$ cat /usr/local/pulse/version.txt 
+Version: 5.3R3
+Build Number: 553
+
+kangas@qwghlm ~
+$ /usr/local/pulse/pulsediag -A
+Pulse Diagnostics for Linux. 
+Version 1.0.
+Release Date/Time: Aug 29 2017 01:27:21
++==============================================================================+
+|   Tests:      |      Results:                  |
++==============================================================================+
+
+       o  Pulse Installation Check   Failed
+       o  Pulse Diagnostics       
+             Pulse Service     Running
+             Pulse Tunnel Test     Established
+
+       o  Host Details        
+             Hostname        qwghlm
+             Domainname      (none)
+             IP Routing Enabled    No
+             IP Loopback test      Passed
+             Nameserver Details   
+                  127.0.0.53     Ping Passed
+             Gateway Ping Test       
+                 192.168.1.1     Ping Passed
+
+       o  Network Connection Diagnostics        
+
+     Interface:        lo
+       IP Address:       127.0.0.1
+       Netmask:          255.0.0.0
+       MTU:              65536
+
+     Interface:        wlp4s0
+       IP Address:       192.168.1.53
+       Netmask:          255.255.255.0
+       Broadcast:        192.168.1.255
+       MTU:              1500
+      o  Route Info 
+
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.1.1     0.0.0.0         UG    600    0        0 wlp4s0
+169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 wlp4s0
+192.168.1.0     0.0.0.0         255.255.255.0   U     600    0        0 wlp4s0
+192.168.1.1     0.0.0.0         255.255.255.255 UH    1      0        0 wlp4s0
+
+       Finished running tests 
++==============================================================================+
+kangas@qwghlm ~
+$ cat /etc/issue
+Ubuntu 18.04.2 LTS \n \l
+
+kangas@qwghlm ~
+$ uname -a
+Linux qwghlm 4.15.0-51-generic #55-Ubuntu SMP Wed May 15 14:27:21 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+
+#########################################
+## Initial state after reboot on home network
+#########################################
+
+$ systemd-resolve --status
+Global
+          DNSSEC NTA: 10.in-addr.arpa
+                      16.172.in-addr.arpa
+                      168.192.in-addr.arpa
+                      17.172.in-addr.arpa
+                      18.172.in-addr.arpa
+                      19.172.in-addr.arpa
+                      20.172.in-addr.arpa
+                      21.172.in-addr.arpa
+                      22.172.in-addr.arpa
+                      23.172.in-addr.arpa
+                      24.172.in-addr.arpa
+                      25.172.in-addr.arpa
+                      26.172.in-addr.arpa
+                      27.172.in-addr.arpa
+                      28.172.in-addr.arpa
+                      29.172.in-addr.arpa
+                      30.172.in-addr.arpa
+                      31.172.in-addr.arpa
+                      corp
+                      d.f.ip6.arpa
+                      home
+                      internal
+                      intranet
+                      lan
+                      local
+                      private
+                      test
+
+Link 4 (enx3ce1a1475134)
+      Current Scopes: none
+       LLMNR setting: yes
+MulticastDNS setting: no
+      DNSSEC setting: no
+    DNSSEC supported: no
+
+Link 3 (wlp4s0)
+      Current Scopes: DNS
+       LLMNR setting: yes
+MulticastDNS setting: no
+      DNSSEC setting: no
+    DNSSEC supported: no
+         DNS Servers: 192.168.1.1
+          DNS Domain: ~.
+                      home
+
+Link 2 (enp0s31f6)
+      Current Scopes: none
+       LLMNR setting: yes
+MulticastDNS setting: no
+      DNSSEC setting: no
+    DNSSEC supported: no
+
+#########################################
+## VPN started on home network
+#########################################
+
+$ systemd-resolve --status
+Global
+          DNSSEC NTA: 10.in-addr.arpa
+                      16.172.in-addr.arpa
+                      168.192.in-addr.arpa
+                      17.172.in-addr.arpa
+                      18.172.in-addr.arpa
+                      19.172.in-addr.arpa
+                      20.172.in-addr.arpa
+                      21.172.in-addr.arpa
+                      22.172.in-addr.arpa
+                      23.172.in-addr.arpa
+                      24.172.in-addr.arpa
+                      25.172.in-addr.arpa
+                      26.172.in-addr.arpa
+                      27.172.in-addr.arpa
+                      28.172.in-addr.arpa
+                      29.172.in-addr.arpa
+                      30.172.in-addr.arpa
+                      31.172.in-addr.arpa
+                      corp
+                      d.f.ip6.arpa
+                      home
+                      internal
+                      intranet
+                      lan
+                      local
+                      private
+                      test
+
+Link 5 (tun0)
+      Current Scopes: none
+       LLMNR setting: yes
+MulticastDNS setting: no
+      DNSSEC setting: no
+    DNSSEC supported: no
+
+Link 4 (enx3ce1a1475134)
+      Current Scopes: none
+       LLMNR setting: yes
+MulticastDNS setting: no
+      DNSSEC setting: no
+    DNSSEC supported: no
+
+Link 3 (wlp4s0)
+      Current Scopes: DNS
+       LLMNR setting: yes
+MulticastDNS setting: no
+      DNSSEC setting: no
+    DNSSEC supported: no
+         DNS Servers: 192.168.1.1
+          DNS Domain: ~.
+                      home
+
+Link 2 (enp0s31f6)
+      Current Scopes: none
+       LLMNR setting: yes
+MulticastDNS setting: no
+      DNSSEC setting: no
+    DNSSEC supported: no
+
+#########################################
+## After VPN stopped
+#########################################
+
+$ systemd-resolve --status
+Global
+          DNSSEC NTA: 10.in-addr.arpa
+                      16.172.in-addr.arpa
+                      168.192.in-addr.arpa
+                      17.172.in-addr.arpa
+                      18.172.in-addr.arpa
+                      19.172.in-addr.arpa
+                      20.172.in-addr.arpa
+                      21.172.in-addr.arpa
+                      22.172.in-addr.arpa
+                      23.172.in-addr.arpa
+                      24.172.in-addr.arpa
+                      25.172.in-addr.arpa
+                      26.172.in-addr.arpa
+                      27.172.in-addr.arpa
+                      28.172.in-addr.arpa
+                      29.172.in-addr.arpa
+                      30.172.in-addr.arpa
+                      31.172.in-addr.arpa
+                      corp
+                      d.f.ip6.arpa
+                      home
+                      internal
+                      intranet
+                      lan
+                      local
+                      private
+                      test
+
+Link 4 (enx3ce1a1475134)
+      Current Scopes: none
+       LLMNR setting: yes
+MulticastDNS setting: no
+      DNSSEC setting: no
+    DNSSEC supported: no
+
+Link 3 (wlp4s0)
+      Current Scopes: DNS
+       LLMNR setting: yes
+MulticastDNS setting: no
+      DNSSEC setting: no
+    DNSSEC supported: no
+         DNS Servers: 192.168.1.1
+          DNS Domain: ~.
+                      home
+
+Link 2 (enp0s31f6)
+      Current Scopes: none
+       LLMNR setting: yes
+MulticastDNS setting: no
+      DNSSEC setting: no
+    DNSSEC supported: no

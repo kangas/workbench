@@ -1,0 +1,189 @@
+## 2020-04-03
+
+Thinkpad bluetooth keyboard has recently started going to sleep after ~1 min idle time.
+Very annoying!
+
+Fiddling around a bit, it seems fixed when this setting is active:
+
+	$ hciconfig hci0 inqtype
+	hci0:	Type: Primary  Bus: USB
+		BD Address: A0:88:69:E1:CE:BC  ACL MTU: 1021:4  SCO MTU: 96:6
+		Inquiry scan type: Standard Inquiry Scan
+
+I think I activated it via:
+
+	$ sudo hcitool spinq
+
+		spinq	Start periodic inquiry
+
+What was the setting before this? Not sure!
+
+Another thing that "fixed" it was to leave "bluetoothctl" running in a terminal.
+
+Here is the BT ID of my home keyboard:
+
+$ hcitool info 90:7F:61:46:6C:D4
+Requesting information ...
+	BD Address:  90:7F:61:46:6C:D4
+	OUI Company: Chicony Electronics Co., Ltd. (90-7F-61)
+	Device Name: ThinkPad Compact Bluetooth Keyboard with TrackPoint
+	LMP Version: 3.0 (0x5) LMP Subversion: 0x2211
+	Manufacturer: Broadcom Corporation (15)
+	Features page 0: 0xbf 0x06 0x86 0x78 0x18 0x1e 0x59 0x87
+		<3-slot packets> <5-slot packets> <encryption> <slot offset> 
+		<timing accuracy> <role switch> <sniff mode> <RSSI> 
+		<channel quality> <paging scheme> <power control> 
+		<broadcast encrypt> <enhanced iscan> <interlaced iscan> 
+		<interlaced pscan> <inquiry with RSSI> <AFH cap. slave> 
+		<AFH class. slave> <sniff subrating> <pause encryption> 
+		<AFH cap. master> <AFH class. master> <extended inquiry> 
+		<simple pairing> <encapsulated PDU> <non-flush flag> <LSTO> 
+		<inquiry TX power> <EPC> <extended features> 
+	Features page 1: 0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+
+## 2020-04-15
+
+Try watching `journalctl -f` when this occurs. I see the following now which looks fishy...
+disconnect at :40, reconnect at :58?
+
+	Apr 15 11:25:40 qwghlm acpid[1111]: input device has been disconnected, fd 22
+	Apr 15 11:25:40 qwghlm /usr/lib/gdm3/gdm-x-session[3329]: (II) config/udev: removing device ThinkPad Compact Bluetooth Keyboard with TrackPoint
+	Apr 15 11:25:40 qwghlm /usr/lib/gdm3/gdm-x-session[3329]: (**) Option "fd" "86"
+	Apr 15 11:25:40 qwghlm gnome-shell[3745]: g_array_unref: assertion 'array' failed
+	Apr 15 11:25:40 qwghlm /usr/lib/gdm3/gdm-x-session[3329]: (II) UnloadModule: "libinput"
+	Apr 15 11:25:40 qwghlm /usr/lib/gdm3/gdm-x-session[3329]: (II) systemd-logind: not releasing fd for 13:83, still in use
+	Apr 15 11:25:40 qwghlm /usr/lib/gdm3/gdm-x-session[3329]: (II) config/udev: removing device ThinkPad Compact Bluetooth Keyboard with TrackPoint
+	Apr 15 11:25:40 qwghlm /usr/lib/gdm3/gdm-x-session[3329]: (**) Option "fd" "86"
+	Apr 15 11:25:40 qwghlm /usr/lib/gdm3/gdm-x-session[3329]: (II) event19 - ThinkPad Compact Bluetooth Keyboard with TrackPoint: device removed
+	Apr 15 11:25:40 qwghlm gnome-shell[3745]: g_array_unref: assertion 'array' failed
+	Apr 15 11:25:40 qwghlm /usr/lib/gdm3/gdm-x-session[3329]: (II) UnloadModule: "libinput"
+	Apr 15 11:25:40 qwghlm /usr/lib/gdm3/gdm-x-session[3329]: (II) systemd-logind: releasing fd for 13:83
+	Apr 15 11:25:40 qwghlm upowerd[1477]: unhandled action 'unbind' on /sys/devices/pci0000:00/0000:00:14.0/usb1/1-7/1-7:1.0/bluetooth/hci0/hci0:256/0005:17EF:6048.0020
+	Apr 15 11:25:58 qwghlm kernel: lenovo 0005:17EF:6048.0021: unknown main item tag 0x0
+	Apr 15 11:25:58 qwghlm kernel: input: ThinkPad Compact Bluetooth Keyboard with TrackPoint as /devices/pci0000:00/0000:00:14.0/usb1/1-7/1-7:1.0/bluetooth/hci0/hci0:256/0005:17EF:6048.0021/input/input63
+	Apr 15 11:25:58 qwghlm kernel: lenovo 0005:17EF:6048.0021: input,hidraw4: BLUETOOTH HID v3.12 Keyboard [ThinkPad Compact Bluetooth Keyboard with TrackPoint] on a0:88:69:e1:ce:bc
+	Apr 15 11:25:58 qwghlm /usr/lib/gdm3/gdm-x-session[3329]: (II) config/udev: Adding input device ThinkPad Compact Bluetooth Keyboard with TrackPoint (/dev/input/mouse4)
+
+After this happened a few more times today I remembered about "powertop".
+So I ran powertop and looked at "Tunables", saw several entries like
+
+	>> Good          Autosuspend for USB device xHCI Host Controller [usb3]
+
+I switched those to "Bad" meaning
+
+	echo 'on' > '/sys/bus/usb/devices/usb3/power/control'
+
+But this didn't seem to stop disconnects.
+I then typed "bluetooth" and "man bluetooth". I noticed a related utility called "tlp" and "tlp-stat" related to power management.
+
+    NAME
+       tlp - apply laptop power saving settings
+
+    DESCRIPTION
+       Apply power saving settings manually and control ThinkPad battery features.
+
+
+	$ sudo tlp-stat
+	[sudo] password for kangas: 
+	--- TLP 1.1 --------------------------------------------
+
+	+++ Configured Settings: /etc/default/tlp
+	...
+	USB_BLACKLIST_BTUSB=1    # (kangas)
+
+Oh really? Did I adjust that previously?
+At every disconnect event, the first entry shown by journalctl is
+
+	Apr 15 21:01:20 qwghlm acpid[1344]: input device has been disconnected, fd 22
+
+acpid is just a messenger, it seems:
+
+    NAME
+       acpid - Advanced Configuration and Power Interface event daemon
+
+    DESCRIPTION
+       acpid  is  designed  to notify user-space programs of ACPI events.  acpid should be started during the system boot, and will run as a background process, by default.  It will
+
+Looks like I can run "acpi_listen" to receive the same events (I presume).
+
+## 2020-04-22
+
+Looks like /sys/class/power_supply has some interesting controls
+
+	$ cat /sys/class/power_supply/hid-90:7f:61:46:6c:d4-battery/model_name
+	ThinkPad Compact Bluetooth Keyboard with TrackPoint
+	(mpd_3.6) kangas@qwghlm ~
+	$ cat /sys/class/power_supply/hid-90:7f:61:46:6c:d4-battery/capacity
+	100
+	(mpd_3.6) kangas@qwghlm ~
+	$ cat /sys/class/power_supply/hid-90:7f:61:46:6c:d4-battery/status
+	Full
+	(mpd_3.6) kangas@qwghlm ~
+	$ ls /sys/class/power_supply/hid-90:7f:61:46:6c:d4-battery/power/
+	async                 runtime_enabled         wakeup_abort_count   wakeup_last_time_ms
+	autosuspend_delay_ms  runtime_status          wakeup_active        wakeup_max_time_ms
+	control               runtime_suspended_time  wakeup_active_count  wakeup_total_time_ms
+	runtime_active_kids   runtime_usage           wakeup_count
+	runtime_active_time   wakeup                  wakeup_expire_count
+
+I can read all entries there except "autosuspend_delay_ms". I wonder why?
+
+	$ clear; (cd /sys/class/power_supply/hid-90:7f:61:46:6c:d4-battery/power/; pwd; for X in *; do echo -n "$X = "; cat $X; done)
+
+	/sys/class/power_supply/hid-90:7f:61:46:6c:d4-battery/power
+	async = disabled
+	autosuspend_delay_ms = cat: autosuspend_delay_ms: Input/output error
+	control = auto
+	runtime_active_kids = 0
+	runtime_active_time = 0
+	runtime_enabled = disabled
+	runtime_status = unsupported
+	runtime_suspended_time = 0
+	runtime_usage = 0
+	wakeup = enabled
+	wakeup_abort_count = 0
+	wakeup_active = 0
+	wakeup_active_count = 1
+	wakeup_count = 0
+	wakeup_expire_count = 0
+	wakeup_last_time_ms = 27567
+	wakeup_max_time_ms = 113
+	wakeup_total_time_ms = 113
+
+## 2020-04-28
+
+I installed "Bluetooth Manager" today aka "blueman", a GUI config interface for Bluetooth.
+Shows nothing out of the ordinary.
+
+Maybe it's been a Linux kernel bug this whole time?
+
+Recall that I am running Linux qwghlm 5.3.0-46-generic
+I _could_ switch back to 4.15 and try that.
+
+During some interrupt events today i noticed
+
+- The keyboard isn't going to sleep. It happened a few times while I was typing today.
+- It isn't Bluetooth interference. I ran this in a window today...
+
+	while true; do hcitool lq 90:7F:61:46:6C:D4 | grep -v "Link quality: 255"; sleep 1; done
+
+the only output was
+
+	Not connected.
+	Not connected.
+	Not connected.
+	Not connected.
+	Not connected.
+
+A new 5.3.0 kernel just became available, Version 5.3.0-51.44~18.04.2
+Changes since Version 5.3.0-46.38~18.04.1 include...
+
+    - xhci: Force Maximum Packet size for Full-speed bulk devices to valid range.
+    - xhci: fix runtime pm enabling for quirky Intel hosts
+    - xhci: Fix memory leak when caching protocol extended capability PSI tables -
+      take 2
+    - usb: host: xhci: update event ring dequeue pointer on purpose
+    - xhci: apply XHCI_PME_STUCK_QUIRK to Intel Comet Lake platforms
+
+Comet Lake has only been available since 2019 so that's not my machine
+

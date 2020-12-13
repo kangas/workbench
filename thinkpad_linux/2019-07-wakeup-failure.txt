@@ -1,0 +1,27 @@
+
+linux-image-4.15.0-54-generic  		...worked well
+
+after the next update, my laptop wouldn't wake from sleep!
+bad updates included:
+
+linux-image-4.15.0-55-generic
+linux-image-4.15.0-58-generic
+
+linux-headers-4.15.0-60-generic 	...was finally good again
+
+
+How to downgrade kernel after bad update (16.04)
+https://askubuntu.com/questions/945403/how-to-downgrade-kernel-after-bad-update-16-04
+
+To remove the latest kernel:
+
+sudo apt remove linux-image-4.4.0-91-generic linux-headers-4.4.0-91-generic
+
+To revert it:
+
+sudo apt install linux-generic
+
+To hold a specific kernel version:
+
+sudo apt-mark hold linux-image-generic linux-headers-generic
+
