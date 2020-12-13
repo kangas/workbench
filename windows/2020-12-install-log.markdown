@@ -33,10 +33,11 @@ Utilities that I had on my last Windows system
 - ConEmu (improved console)
 
 "winget install" makes installing these remarkably easy in 2020!
-
-    	winget install sharpkeys
-		winget install 7zip
-		winget install conemu
+```
+    winget install sharpkeys
+    winget install 7zip
+    winget install conemu
+```
 
 Lastly, some stuff to dabble in CNC:
 - [Carbide3D CarbideCreate](https://carbide3d.com/carbidecreate/)
