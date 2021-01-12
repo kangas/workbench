@@ -59,3 +59,18 @@ More information about the Linux client can be found here:
 	Note: As a reminder, a valid login ID on https://my.pulsesecure.net is required to download software from the Pulse Secure Licensing and Download Center. 
 
 
+Alternatives to Pulse Secure: OpenConnect
+-----------------------------------------
+
+See README.openconnect.txt
+
+
+Alternatives: chroot
+--------------------
+
+Consider installing the official Pulse Secure VPN client inside a chroot, so its shared library dependencies can be decoupled from the host OS libraries.
+
+https://wiki.archlinux.org/index.php/Chroot
+https://wiki.archlinux.org/index.php/DeveloperWiki:Building_in_a_clean_chroot
+https://help.ubuntu.com/community/BasicChroot
+https://help.ubuntu.com/community/DebootstrapChroot
