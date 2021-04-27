@@ -28,4 +28,13 @@ gnome_apt_to_install:
   # Solaar is a Linux manager for Logitech devices
   #
   - solaar
+  #
+  # GPaste is a clipboard management system
+  #
+  - gpaste
+  - gnome-shell-extensions-gpaste
+  #
+  # Pulse Audio Volume Control for precise control of audio input/output devices
+  #
+  - pavucontrol
 
