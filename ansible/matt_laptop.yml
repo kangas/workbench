@@ -20,7 +20,7 @@
     # - role: dropbox
 
   tasks:
-    - name: Install apt: GPaste, Pulse Audio Volume Control
+    - name: "Install apt: GPaste, Pulse Audio Volume Control"
       apt:
         name:
           - gpaste
@@ -28,7 +28,7 @@
           - pavucontrol
         state: present
 
-    - name: Install Snaps: Okular, Slack, Spotify
+    - name: "Install Snaps: Okular, Slack, Spotify"
       snap:
         name:
           - okular
