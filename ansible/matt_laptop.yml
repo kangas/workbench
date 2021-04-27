@@ -19,13 +19,21 @@
       tags: 1password
     # - role: dropbox
 
-  # tasks:
-  #   - name: Install Snaps: Okular, Slack, Spotify
-  #     snap:
-  #       name:
-  #         - okular
-  #         - slack
-  #         - spotify
+  tasks:
+    - name: Install apt: GPaste, Pulse Audio Volume Control
+      apt:
+        name:
+          - gpaste
+          - gnome-shell-extensions-gpaste
+          - pavucontrol
+        state: present
+
+    - name: Install Snaps: Okular, Slack, Spotify
+      snap:
+        name:
+          - okular
+          - slack
+          - spotify
 
 # Some other useful Snaps, but not always necessary for me!
 #
