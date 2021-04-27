@@ -1,23 +1,5 @@
 ---
 - import_tasks: apt-tools.yml
 - import_tasks: ssh.yml
-
-- debug:
-    var: ansible_env.HOME
-
-- name: gitconfig
-  template:
-    src: templates/gitconfig
-    dest: "{{ ansible_env.HOME }}/.gitconfig"
-
-- name: Clone dotfiles repo
-  git:
-    repo: '{{ dotfiles.repo }}'
-    version: '{{ dotfiles.version }}'
-    dest: "{{ ansible_env.HOME }}/.dotfiles"
-    update: no
-
-- name: bashrc
-  template:
-    src: templates/bashrc
-    dest: "{{ ansible_env.HOME }}/.bashrc"
+- import_tasks: dotfiles.yml
+- import_tasks: pyenv.yml

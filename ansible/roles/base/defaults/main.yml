@@ -20,3 +20,11 @@ git:
 dotfiles:
   repo: https://github.com/kangas/.dotfiles.git
   version: HEAD
+
+pyenv:
+  repo: https://github.com/pyenv/pyenv.git
+  version: HEAD
+
+pyenv_virtualenv:
+  repo: https://github.com/pyenv/pyenv-virtualenv.git
+  version: HEAD

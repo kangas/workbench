@@ -1,0 +1,17 @@
+---
+- name: Clone pyenv repo
+  git:
+    repo: '{{ pyenv.repo }}'
+    version: '{{ pyenv.version }}'
+    dest: "{{ ansible_env.HOME }}/.pyenv"
+    update: no
+
+- name: Clone pyenv-virtualenv repo
+  git:
+    repo: '{{ pyenv_virtualenv.repo }}'
+    version: '{{ pyenv_virtualenv.version }}'
+    dest: "{{ ansible_env.HOME }}/.pyenv/plugins/pyenv-virtualenv"
+    update: no
+
+
+# Dotfiles sets up all necessary environment variables
