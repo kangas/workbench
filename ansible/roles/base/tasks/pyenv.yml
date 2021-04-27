@@ -1,4 +1,7 @@
 ---
+# Install pyenv
+# Dotfiles sets up all necessary environment variables
+
 - name: Clone pyenv repo
   git:
     repo: '{{ pyenv.repo }}'
@@ -13,5 +16,11 @@
     dest: "{{ ansible_env.HOME }}/.pyenv/plugins/pyenv-virtualenv"
     update: no
 
-
-# Dotfiles sets up all necessary environment variables
+#
+# Usage:
+#
+# pyenv install 3.6.9
+# pyenv virtualenv 3.6.9 mpd_3.6
+# pyenv activate mpd_3.6
+# pyenv global mpd_3.6
+#
