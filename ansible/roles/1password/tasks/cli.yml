@@ -18,6 +18,7 @@
     src: '{{ onepassword.cli.url }}'
     dest: '{{ ansible_env.HOME }}/bin'
     creates: '{{ ansible_env.HOME }}/bin/op'
+    remote_src: yes
 
 # To verify:
 #  gpg --receive-keys 3FEF9748469ADBE15DA7CA80AC2D62742012EA22
