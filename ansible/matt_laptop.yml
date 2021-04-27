@@ -21,6 +21,7 @@
 
   tasks:
     - name: "Install apt: GPaste, Pulse Audio Volume Control"
+      become: yes
       apt:
         name:
           - gpaste
@@ -29,6 +30,7 @@
         state: present
 
     - name: "Install Snaps: Okular, Slack, Spotify"
+      become: yes
       snap:
         name:
           - okular
