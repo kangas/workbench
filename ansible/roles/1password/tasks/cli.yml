@@ -29,7 +29,7 @@
 
 - name: Add gpg key
   apt_key:
-    keyserver: keys.gnupg.net
+    keyserver: keyserver.ubuntu.com
     id: 3FEF9748469ADBE15DA7CA80AC2D62742012EA22
   become: yes
 
