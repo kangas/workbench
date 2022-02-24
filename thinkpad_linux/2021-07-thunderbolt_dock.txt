@@ -1,0 +1,94 @@
+## 2021-08-04
+
+Installed Ubuntu 20.04 security update on Ymir (Thinkpad T490s), rebooted
+
+ -5 d2247f40ce9f4788b0f1d1d08b8ff277 Mon 2021-07-19 13:33:42 EDT—Mon 2021-07-26 22:46:59 EDT
+ -4 b2f52eb64f2744e486e82d6946a7d1ea Mon 2021-07-26 22:47:28 EDT—Wed 2021-08-04 13:22:21 EDT
+ -3 8a0eb6c85eaf436f8f72f6174fc856ec Wed 2021-08-04 13:22:47 EDT—Wed 2021-08-04 13:24:53 EDT
+ -2 df48f387a30d4adebc517afcce1294b0 Wed 2021-08-04 13:25:23 EDT—Wed 2021-08-04 13:26:18 EDT
+ -1 9f79929072a548cbbfa3ab6ca3a977ba Wed 2021-08-04 13:26:48 EDT—Wed 2021-08-04 13:30:56 EDT
+
+Kernels in use for these boots:
+
+  -5 	Mon 2021-07-19	Linux version 5.8.0-59-generic
+  -4 	Mon 2021-07-26	Linux version 5.8.0-63-generic
+  -3 	Wed 2021-08-04	Linux version 5.11.0-25-generic
+  -2 	Wed 2021-08-04	Linux version 5.11.0-25-generic
+  -1 	Wed 2021-08-04	Linux version 5.11.0-25-generic
+
+Here's -1:
+
+	-- Logs begin at Sat 2021-03-06 19:17:31 EST, end at Wed 2021-08-04 14:22:52 EDT. --
+	Aug 04 13:26:48 Ymir kernel: microcode: microcode updated early to revision 0xea, date = 2021-01-05
+	Aug 04 13:26:48 Ymir kernel: Linux version 5.11.0-25-generic (buildd@lgw01-amd64-038) (gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0, GNU ld (GN>
+	Aug 04 13:26:48 Ymir kernel: Command line: BOOT_IMAGE=/boot/vmlinuz-5.11.0-25-generic root=UUID=4fa936da-f248-4df8-89cb-42a4bf961f69 ro qui>
+
+Was connected to my normal docking station during boot. The boot process was slower than usual and the "spinner" spun noticeably more slowly. Login screen only displayed on the laptop screen. After login, only laptop screen was activated. But USB keyboard connected to the dock worked at the login screen and after login.
+
+Disconnected dock. Ran "sudo journalctl -f" and plugged dock back in. Saw this:
+
+
+	Aug 04 13:29:30 Ymir kernel: [drm:drm_dp_mst_dpcd_read [drm_kms_helper]] *ERROR* mstb 00000000fbe541d9 port 1: DPCD read on addr 0x4b0 for 1 bytes NAKed
+	Aug 04 13:29:30 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:30 Ymir kernel: [drm:drm_dp_mst_dpcd_read [drm_kms_helper]] *ERROR* mstb 00000000fbe541d9 port 2: DPCD read on addr 0x4b0 for 1 bytes NAKed
+	Aug 04 13:29:30 Ymir ModemManager[971]: <info>  Couldn't check support for device '/sys/devices/pci0000:00/0000:00:14.0/usb2/2-2/2-2.1/2-2.1.2': not supported by any plugin
+	Aug 04 13:29:30 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:30 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:31 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:31 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* CPU pipe B FIFO underrun
+	Aug 04 13:29:31 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:31 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:31 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:31 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:31 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:32 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:32 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:32 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:32 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:32 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* CPU pipe B FIFO underrun
+	Aug 04 13:29:32 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:32 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+	Aug 04 13:29:32 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+
+
+That output continued until I unplugged the dock.
+
+Do I need newer i915 firmware? this is the version in use:
+
+	Aug 04 13:26:48 Ymir kernel: i915 0000:00:02.0: [drm] Finished loading DMC firmware i915/kbl_dmc_ver1_04.bin (v1.4)
+	Aug 04 13:26:48 Ymir kernel: [drm] Initialized i915 1.6.0 20201103 for 0000:00:02.0 on minor 0
+
+
+The first "i915 [drm] *ERROR* Link Training Unsuccessful" message appeared at
+
+	Aug 04 13:22:51 Ymir kernel: i915 0000:00:02.0: [drm] *ERROR* Link Training Unsuccessful
+
+which was boot
+ 	8a0eb6c85eaf436f8f72f6174fc856ec Wed 2021-08-04 13:22:47 EDT
+ 	Linux version 5.11.0-25-generic
+
+This was the first boot with 5.11.0-25-generic. So upgrading to 5.11.0 correlates with the first "i915 [drm] *ERROR* Link Training Unsuccessful" message
+
+I wonder what changed between 5.8.0 and 5.11.0?
+
+5.14.0-rc4: https://www.kernel.org/doc/html/latest/gpu/i915.html
+5.11.0: 	https://www.kernel.org/doc/html/v5.11/gpu/i915.html
+5.8.0: 		https://www.kernel.org/doc/html/v5.8/gpu/i915.html
+
+This ticket suddenly started seeing activity ~5 months ago:
+https://gitlab.freedesktop.org/drm/intel/-/issues/224
+ "drm:intel_dp_start_link_train [i915] *ERROR* failed to enable link training"
+
+ 	"Same issue on my T460P and its docking station sometimes
+ 	Arch Linux XFCE
+ 	i7-6700HQ
+ 	Kernel 5.10.15-zen1-1-zen"
+
+ 	"Issue reappeared for me in 5.11.1-zen1-1-zen, leading to being unable to use external monitors with Latitude 7280 with docking station at all."
+
+ 	"Same, just upgraded to 5.11.4.arch1-1 and had to downgrade to 5.10.16-arch1-1"
+
+
+Here's the list of open intel driver issues:
+https://gitlab.freedesktop.org/drm/intel/-/issues
+
