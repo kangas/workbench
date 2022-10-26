@@ -1,0 +1,19 @@
+https://community.frame.work/t/linux-battery-life-tuning/6665/156
+
+> I was having trouble hitting PC10, but then I found out it works after a reboot/fresh boot but not after suspending. It always works during suspend, but after the first suspend, it no longer worked in normal use until the next power cycle.
+
+> The fix, add nvme.noacpi=1 to your kernel parameters.
+> PC10 now works after suspending and power usage while under light use should improve.
+
+Excellent catch! I knew that I had hit C10 once or twice in the past, but couldn’t seem to replicate those results reliably. This explains it.
+
+For those who need it spelled out more: I verified the fix by following these steps:
+
+    Reboot
+    Verify hitting C10 with powertop
+    Suspend, then re-awaken
+    Verify not hitting C10
+
+I then added nvme.noacpi=1 to GRUB_CMDLINE_LINUX_DEFAULT (see here 62 for how to do that) and repeated the procedure above. After the change, step (4) shows that I’m getting to C10 even after a suspend.
+
+[How do I change GRUB boot options](https://linuxhint.com/change-grub-options/)
