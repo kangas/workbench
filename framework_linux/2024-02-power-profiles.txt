@@ -1,0 +1,40 @@
+This won't be needed on Ubuntu 24.04 (I think!) but is helpful on 22.04:
+
+https://community.frame.work/t/fedora-35-power-profile-change-on-battery-or-ac-power/10438/3
+
+	The GUI option to change power profiles in Fedora 35 quickly is nice, but wouldn’t it be nicer to have it automatically put the laptop in “Performance” mode when AC Power is applied and “Power Saver” when running on battery? Easily done. After putting the scripts and rules in place, I wrote a small script to automate it and a readme for step-by step instructions. It’s not a hard process, but this is a time saver
+
+	The installer script does 3 things.
+
+    1. Creates the directory /usr/share/power-profiles
+    2. Copies a pair of 1-line bash scripts (courtesy of https://github.com/ruzko/power-profiles-daemon-scripts2 55 ) to that directory to set the appropriate profile
+    3. Copies a pair of udev rules (adapted from linux - udev rule to start a command on AC/Battery plug/unplug event - Super User 16 ) to /etc/udev/rules.d
+
+
+$ ls /usr/share/power-profiles/
+balanced.sh*  performance.sh*  power-save.sh*
+
+$ ls /etc/udev/rules.d/
+60-onbattery.rules      70-snap.cups.rules                       70-snap.snapd.rules
+61-onacpower.rules      70-snap.firefox.rules                    70-snap.snap-store.rules
+70-snap.chromium.rules  70-snap.snapd-desktop-integration.rules  70-snap.spotify.rules
+
+$ cat /etc/udev/rules.d/60-onbattery.rules 
+# Rule for when switching to battery
+SUBSYSTEM=="power_supply",ENV{POWER_SUPPLY_ONLINE}=="0",RUN+="/usr/share/power-profiles/power-save.sh"
+
+$ cat /etc/udev/rules.d/61-onacpower.rules 
+# Rule for when switching to AC Power
+SUBSYSTEM=="power_supply",ENV{POWER_SUPPLY_ONLINE}=="1",RUN+="/usr/share/power-profiles/balanced.sh"
+
+$ cat /usr/share/power-profiles/balanced.sh 
+#!/bin/sh
+#set balanced profile through D-bus
+
+powerprofilesctl set balanced
+
+$ cat /usr/share/power-profiles/power-save.sh 
+#!/bin/sh
+#set performance profile through D-bus
+
+powerprofilesctl set power-saver
